@@ -2,11 +2,16 @@
 import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
-import { errorHandler } from './middlewares/errorHandler';
+import { env } from './utils/env.js';
 
-export const setupServer = () => {
+const PORT = Number(env('PORT', '8080'));
+
+export function setupServer() {
+
   const app = express();
-  const PORT = 8080;
+
+  app.use(cors());
+
   app.use(
     pino({
       transport: {
@@ -14,7 +19,7 @@ export const setupServer = () => {
       },
     }),
   );
-  app.use(cors());
+  
   app.use(express.json());
   app.get('/', (req, res) => {
     res.json({ message: 'water' });
@@ -22,7 +27,9 @@ export const setupServer = () => {
 
   app.use('/api/water');
   app.use(errorHandler);
+
   app.listen(PORT, () => {
-    console.log('Connect was successfully');
+    console.log(`Server is running on port ${PORT}`);
   });
 };
+
