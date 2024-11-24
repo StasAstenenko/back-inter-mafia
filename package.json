@@ -34,5 +34,14 @@
     "globals": "^15.12.0",
     "nodemon": "^3.1.7",
     "pino-pretty": "^13.0.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StasAstenenko/back-inter-mafia.git"
+  },
+  "bugs": {
+    "url": "https://github.com/StasAstenenko/back-inter-mafia/issues"
+  },
+  "homepage": "https://github.com/StasAstenenko/back-inter-mafia#readme",
+  "description": ""
 }

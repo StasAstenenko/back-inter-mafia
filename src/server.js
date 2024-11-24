@@ -1,5 +1,4 @@
 //server
-
 import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
@@ -20,8 +19,17 @@ export function setupServer() {
       },
     }),
   );
+  
+  app.use(express.json());
+  app.get('/', (req, res) => {
+    res.json({ message: 'water' });
+  });
+
+  app.use('/api/water');
+  app.use(errorHandler);
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
   });
 };
+
