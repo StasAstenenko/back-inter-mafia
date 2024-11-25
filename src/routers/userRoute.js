@@ -22,7 +22,6 @@ const userRouter = Router();
 
 userRouter.post(
     '/register',
-    upload.single('photo'),
     validateBody(registerUserSchema),
     ctrlWrapper(registerUserController),
 );
@@ -48,3 +47,5 @@ userRouter.patch(
     validateBody(updateUserSchema),
     ctrlWrapper(patchUserInfoController),
 );
+
+export default userRouter;
