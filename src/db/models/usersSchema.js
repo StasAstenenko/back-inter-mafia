@@ -1,1 +1,32 @@
 //users schema
+import { model, Schema } from 'mongoose';
+import { GENDER } from '../../constants/index.js';
+
+const usersSchema = new Schema(
+    {
+        email: { type: String, required: true, unique: true },
+        password: { type: String, required: true },
+        name: { type: String },
+        avatarUrl: { type: String },
+        gender: {
+            type: String,
+            enum: [GENDER.WOMAN, GENDER.MAN],
+            default: GENDER.WOMAN,
+        },
+        weight: {
+            type: Number,
+            default: 0
+        },
+        activeTime: {
+            type: Number,
+            default: 0
+        },
+        dailyNorm: {
+            type: Number,
+            default: 1500
+        },
+    },
+    { timestamps: true, versionKey: false },
+);
+
+export const UsersCollection = model('users', usersSchema);
