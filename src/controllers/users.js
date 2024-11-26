@@ -6,10 +6,13 @@ import {
     loginUser,
     logoutUser,
     refreshUsersSession,
-    getUserInfo,
-    updateUserInfo
+    getUserInfoBySession,
+    updateUserInfoBySession
 } from '../services/user.js';
 import { THIRTY_DAYS } from '../constants/index.js';
+import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
+import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
+import { env } from '../utils/env.js';
 
 export const registerUserController = async (req, res) => {
     const user = await registerUser(req.body);
@@ -83,12 +86,12 @@ export const refreshUserSessionController = async (req, res) => {
 };
 
 export const getUserInfoController = async (req, res) => {
-    const userId = req.cookies.sessionId;
-    if (!userId) {
+    const sessionId = req.cookies.sessionId;
+    if (!sessionId) {
         throw createHttpError(401, 'Unauthorized');
     }
 
-    const user = await getUserInfo(userId);
+    const user = await getUserInfoBySession(sessionId);
 
     if (!user) {
         throw createHttpError(404, 'User not found');
@@ -102,17 +105,25 @@ export const getUserInfoController = async (req, res) => {
 };
 
 export const patchUserInfoController = async (req, res) => {
-    const userId = req.cookies.sessionId;
-    if (!userId) {
+    const sessionId = req.cookies.sessionId;
+    if (!sessionId) {
         throw createHttpError(401, 'Unauthorized');
     }
 
-    const updatePayload = req.body;
-    if (req.file) {
-        updatePayload.photo = req.file.path;
+    const photo = req.file;
+    let photoUrl;
+    if (photo) {
+        if (env('ENABLE_CLOUDINARY') === 'true') {
+            photoUrl = await saveFileToCloudinary(photo);
+        } else {
+            photoUrl = await saveFileToUploadDir(photo);
+        }
     }
 
-    const updatedUser = await updateUserInfo(userId, updatePayload);
+    const updatedUser = await updateUserInfoBySession(sessionId, {
+        ...req.body,
+        avatarUrl: photoUrl,
+    });
 
     res.status(200).json({
         status: 200,

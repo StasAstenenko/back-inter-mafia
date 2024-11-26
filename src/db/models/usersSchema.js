@@ -6,8 +6,14 @@ const usersSchema = new Schema(
     {
         email: { type: String, required: true, unique: true },
         password: { type: String, required: true },
-        name: { type: String },
-        avatarUrl: { type: String },
+        name: {
+            type: String,
+            default: ''
+        },
+        avatarUrl: {
+            type: String,
+            default: ''
+        },
         gender: {
             type: String,
             enum: [GENDER.WOMAN, GENDER.MAN],
