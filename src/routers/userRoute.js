@@ -43,7 +43,7 @@ userRouter.get(
 
 userRouter.patch(
     '/',
-    upload.single('photo'),
+    upload.single('avatarUrl'),
     validateBody(updateUserSchema),
     ctrlWrapper(patchUserInfoController),
 );

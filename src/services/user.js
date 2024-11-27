@@ -11,14 +11,14 @@ import { FIFTEEN_MINUTES, THIRTY_DAYS } from '../constants/index.js';
 export const registerUser = async (payload) => {
     const user = await UsersCollection.findOne({ email: payload.email });
     if (user) throw createHttpError(409, 'Email in use');
-  
+
     const encryptedPassword = await bcrypt.hash(payload.password, 10);
-  
+
     return await UsersCollection.create({
-      ...payload,
-      password: encryptedPassword,
+        ...payload,
+        password: encryptedPassword,
     });
-  };
+};
 
 export const loginUser = async (payload) => {
     const user = await UsersCollection.findOne({ email: payload.email });
@@ -89,23 +89,38 @@ export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
     });
 };
 
-export const getUserInfo = async (userId) => {
-    const user = await UsersCollection.findById(userId).select('-password');
+export const getUserInfoBySession = async (sessionId) => {
+    const session = await SessionsCollection.findById(sessionId);
+    if (!session) {
+        throw createHttpError(401, 'Session not found');
+    }
+
+    const user = await UsersCollection.findById(session.userId);
     if (!user) {
         throw createHttpError(404, 'User not found');
     }
+
     return user;
 };
 
-export const updateUserInfo = async (userId, payload) => {
-    const user = await UsersCollection.findById(userId);
+export const updateUserInfoBySession = async (sessionId, payload) => {
+    const session = await SessionsCollection.findById(sessionId);
+    if (!session) {
+        throw createHttpError(401, 'Session not found');
+    }
+
+    const user = await UsersCollection.findById(session.userId);
     if (!user) {
         throw createHttpError(404, 'User not found');
     }
 
-    Object.keys(payload).forEach((key) => {
-        user[key] = payload[key];
-    });
+    for (const key in payload) {
+        if (key === 'password') {
+            user[key] = await bcrypt.hash(payload[key], 10);
+        } else {
+            user[key] = payload[key];
+        }
+    }
 
     await user.save();
 
