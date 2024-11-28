@@ -1,6 +1,5 @@
 //users
 import createHttpError from 'http-errors';
-
 import {
     registerUser,
     loginUser,
@@ -9,10 +8,10 @@ import {
     getUserInfoBySession,
     updateUserInfoBySession
 } from '../services/user.js';
-import { THIRTY_DAYS } from '../constants/index.js';
 import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
 import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
 import { env } from '../utils/env.js';
+import { setupSession } from '../utils/setupSession.js'
 
 export const registerUserController = async (req, res) => {
     const user = await registerUser(req.body);
@@ -27,14 +26,7 @@ export const registerUserController = async (req, res) => {
 export const loginUserController = async (req, res) => {
     const session = await loginUser(req.body);
 
-    res.cookie('refreshToken', session.refreshToken, {
-        httpOnly: true,
-        expires: new Date(Date.now() + THIRTY_DAYS),
-    });
-    res.cookie('sessionId', session._id, {
-        httpOnly: true,
-        expires: new Date(Date.now() + THIRTY_DAYS),
-    });
+    setupSession(res, session);
 
     res.json({
         status: 200,
@@ -54,18 +46,6 @@ export const logoutUserController = async (req, res) => {
     res.clearCookie('refreshToken');
 
     res.status(204).send();
-};
-
-
-const setupSession = (res, session) => {
-    res.cookie('refreshToken', session.refreshToken, {
-        httpOnly: true,
-        expires: new Date(Date.now() + THIRTY_DAYS),
-    });
-    res.cookie('sessionId', session._id, {
-        httpOnly: true,
-        expires: new Date(Date.now() + THIRTY_DAYS),
-    });
 };
 
 export const refreshUserSessionController = async (req, res) => {
