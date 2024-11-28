@@ -1,11 +1,11 @@
 // запуск сервера, подключение к бд
 
-import { initMongoConnection } from './db/initMongoDB.js';
+import { initMongoDB } from './db/initMongoDB.js';
 import { setupServer } from './server.js';
 
-const connectDB = async () => {
-  await initMongoConnection();
+const bootstrap = async () => {
+  await initMongoDB();
   setupServer();
 };
 
-connectDB();
+void bootstrap();

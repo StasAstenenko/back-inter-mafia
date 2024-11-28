@@ -14,21 +14,21 @@ import {
   updateValidationSchema,
 } from '../validation/water.js';
 
-const router = express.Router();
+const waterRouter = express.Router();
 
-router.get('/', ctrlWrapper(getWaterDataController));
-router.get('/:userId/day', ctrlWrapper(getWatersPerDayController));
-router.get('/:userId/month');
-router.post(
+waterRouter.get('/', ctrlWrapper(getWaterDataController));
+waterRouter.get('/:userId', ctrlWrapper(getWatersPerDayController));
+waterRouter.get('/:userId/month');
+waterRouter.post(
   '/',
   validateBody(createValidationSchema),
   ctrlWrapper(createWaterDataController),
 );
-router.put(
+waterRouter.put(
   '/:userId',
   validateBody(updateValidationSchema),
   ctrlWrapper(updateWaterDataController),
 );
-router.delete('/:userId', ctrlWrapper(deleteWaterDataController));
+waterRouter.delete('/:userId', ctrlWrapper(deleteWaterDataController));
 
-export default router;
+export default waterRouter;

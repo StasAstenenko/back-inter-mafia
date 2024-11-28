@@ -39,7 +39,8 @@ export const createWaterDataController = async (req, res) => {
 };
 
 export const deleteWaterDataController = async (req, res, next) => {
-  const { id } = req;
+  const { id } = req.params;
+
   const data = await deleteWaterData(id);
   if (!data) {
     return next(createHttpError(404, 'Data not found'));
@@ -52,7 +53,8 @@ export const deleteWaterDataController = async (req, res, next) => {
 };
 
 export const updateWaterDataController = async (req, res, next) => {
-  const { id } = req;
+  const { id } = req.params;
+
   const waterData = {
     amount: req.body.amount,
     date: req.body.date,
