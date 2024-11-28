@@ -2,6 +2,7 @@
 import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
+import waterRouter from './routers/waterRoute.js';
 import cookieParser from 'cookie-parser';
 import { env } from './utils/env.js';
 import router from './routers/index.js';
@@ -11,10 +12,8 @@ import { UPLOAD_DIR } from './constants/index.js';
 
 const PORT = Number(env('PORT', '8080'));
 
-export function setupServer() {
-
+export const setupServer = () => {
   const app = express();
-
   app.use(
     express.json({
       type: ['application/json', 'application/vnd.api+json'],
@@ -32,6 +31,7 @@ export function setupServer() {
     }),
   );
 
+  app.use('/api/water', waterRouter);
   app.get('/', (req, res) => {
     res.json({
       message: 'Hello world!',
