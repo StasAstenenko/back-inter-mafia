@@ -2,7 +2,9 @@
 import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
-import { errorHandler } from './middlewares/errorHandler';
+import { errorHandler } from './middlewares/errorHandler.js';
+import { notFoundHandler } from './middlewares/notFoundHandler.js';
+import waterRouter from './routers/waterRoute.js';
 
 export const setupServer = () => {
   const app = express();
@@ -16,13 +18,12 @@ export const setupServer = () => {
   );
   app.use(cors());
   app.use(express.json());
-  app.get('/', (req, res) => {
-    res.json({ message: 'water' });
-  });
 
-  app.use('/api/water');
+  app.use('/api/water', waterRouter);
+
+  app.use(notFoundHandler);
   app.use(errorHandler);
   app.listen(PORT, () => {
-    console.log('Connect was successfully');
+    console.log(`Server is running on port ${PORT}`);
   });
 };
