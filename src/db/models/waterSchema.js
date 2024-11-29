@@ -11,7 +11,7 @@ const waterSchema = new Schema(
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'user',
-      required: true,
+      required: false,
     },
     date: { type: String, required: true },
     currentDailyNorm: { type: Number, required: true },
