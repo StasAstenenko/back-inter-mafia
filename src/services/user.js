@@ -1,10 +1,8 @@
 //user service
 import createHttpError from 'http-errors';
 import bcrypt from 'bcrypt';
-import { randomBytes } from 'crypto';
 import { UsersCollection } from '../db/models/usersSchema.js';
 import { SessionsCollection } from '../db/models/sessionsSchema.js';
-import { FIFTEEN_MINUTES, THIRTY_DAYS } from '../constants/index.js';
 import { createSession } from '../utils/createSession.js'
 
 export const registerUser = async (payload) => {
@@ -29,20 +27,7 @@ export const loginUser = async (payload) => {
         throw createHttpError(401, 'Unauthorized');
     }
 
-    await SessionsCollection.deleteOne({ userId: user._id });
-
-    const accessToken = randomBytes(30).toString('base64');
-    const refreshToken = randomBytes(30).toString('base64');
-
-    const session = await SessionsCollection.create({
-        userId: user._id,
-        accessToken,
-        refreshToken,
-        accessTokenValidUntil: new Date(Date.now() + FIFTEEN_MINUTES),
-        refreshTokenValidUntil: new Date(Date.now() + THIRTY_DAYS),
-    });
-
-    return session;
+    return user;
 };
 
 export const logoutUser = async (sessionId) => {
