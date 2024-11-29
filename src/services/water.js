@@ -20,6 +20,6 @@ export const deleteWaterData = async (id) => {
   return data;
 };
 
-export const updateWaterData = async (userId, waterData) => {
-  return await WaterModel.findByIdAndUpdate(userId, waterData, { new: true });
+export const updateWaterData = async (waterId, waterData) => {
+  return await WaterModel.findByIdAndUpdate(waterId, waterData, { new: true });
 };

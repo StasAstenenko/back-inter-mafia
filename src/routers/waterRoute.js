@@ -17,18 +17,18 @@ import {
 const waterRouter = express.Router();
 
 waterRouter.get('/', ctrlWrapper(getWaterDataController));
-waterRouter.get('/:userId', ctrlWrapper(getWatersPerDayController));
-waterRouter.get('/:userId/month');
+waterRouter.get('/:waterId', ctrlWrapper(getWatersPerDayController));
+// waterRouter.get('/:userId/month');
 waterRouter.post(
   '/',
   validateBody(createValidationSchema),
   ctrlWrapper(createWaterDataController),
 );
-waterRouter.put(
-  '/:userId',
+waterRouter.patch(
+  '/:waterId',
   validateBody(updateValidationSchema),
   ctrlWrapper(updateWaterDataController),
 );
-waterRouter.delete('/:userId', ctrlWrapper(deleteWaterDataController));
+waterRouter.delete('/:waterId', ctrlWrapper(deleteWaterDataController));
 
 export default waterRouter;
