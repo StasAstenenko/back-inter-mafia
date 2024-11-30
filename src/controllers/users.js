@@ -12,29 +12,17 @@ import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
 import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
 import { env } from '../utils/env.js';
 import { setupSession } from '../utils/setupSession.js';
-import { createSession } from '../utils/createSessionId.js';
 
 export const registerUserController = async (req, res) => {
     const user = await registerUser(req.body);
-
-    const session = await createSession(user._id);
-
-    setupSession(res, session);
-
-    res.status(200).json({
-        status: 200,
-        message: 'Successfully registered a user!',
-        data: {
-            user,
-            accessToken: session.accessToken,
-        },
+    res.status(201).json({
+        status: 201,
+        data: user,
     });
 };
 
 export const loginUserController = async (req, res) => {
-    const user = await loginUser(req.body);
-
-    const session = await createSession(user._id);
+    const session = await loginUser(req.body);
 
     setupSession(res, session);
 
