@@ -1,12 +1,11 @@
 //user service
-import bcrypt from 'bcrypt';
 import createHttpError from 'http-errors';
+import bcrypt from 'bcrypt';
 import { randomBytes } from 'crypto';
-
 import { UsersCollection } from '../db/models/usersSchema.js';
 import { SessionsCollection } from '../db/models/sessionsSchema.js';
 import { FIFTEEN_MINUTES, THIRTY_DAYS } from '../constants/index.js';
-
+import { createSession } from '../utils/createSession.js'
 
 export const registerUser = async (payload) => {
     const user = await UsersCollection.findOne({ email: payload.email });
@@ -48,18 +47,6 @@ export const loginUser = async (payload) => {
 
 export const logoutUser = async (sessionId) => {
     await SessionsCollection.deleteOne({ _id: sessionId });
-};
-
-const createSession = () => {
-    const accessToken = randomBytes(30).toString('base64');
-    const refreshToken = randomBytes(30).toString('base64');
-
-    return {
-        accessToken,
-        refreshToken,
-        accessTokenValidUntil: new Date(Date.now() + FIFTEEN_MINUTES),
-        refreshTokenValidUntil: new Date(Date.now() + THIRTY_DAYS),
-    };
 };
 
 export const refreshUsersSession = async ({ sessionId, refreshToken }) => {

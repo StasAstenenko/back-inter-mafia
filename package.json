@@ -9,6 +9,7 @@
     "build-docs": "redocly bundle --ext json -o docs/swagger.json",
     "preview-docs": "redocly preview-docs"
   },
+  "type":"module",
   "keywords": [],
   "author": "",
   "license": "ISC",

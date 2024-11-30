@@ -1,13 +1,34 @@
 //water route
 import express from 'express';
+import { ctrlWrapper } from '../utils/ctrlWrapper.js';
+import {
+  createWaterDataController,
+  deleteWaterDataController,
+  getWaterDataController,
+  getWatersPerDayController,
+  updateWaterDataController,
+} from '../controllers/water.js';
+import { validateBody } from '../middlewares/validateBody.js';
+import {
+  createValidationSchema,
+  updateValidationSchema,
+} from '../validation/water.js';
 
-const router = express.Router();
+const waterRouter = express.Router();
 
-router.use('/:userId');
-router.get('/:userId/day');
-router.get('/:userId/month');
-router.post('/:userId');
-router.patch('/:userId');
-router.delete('/:userId');
+waterRouter.get('/', ctrlWrapper(getWaterDataController));
+waterRouter.get('/:waterId', ctrlWrapper(getWatersPerDayController));
+// waterRouter.get('/:userId/month');
+waterRouter.post(
+  '/',
+  validateBody(createValidationSchema),
+  ctrlWrapper(createWaterDataController),
+);
+waterRouter.patch(
+  '/:waterId',
+  validateBody(updateValidationSchema),
+  ctrlWrapper(updateWaterDataController),
+);
+waterRouter.delete('/:waterId', ctrlWrapper(deleteWaterDataController));
 
-export default router;
+export default waterRouter;
