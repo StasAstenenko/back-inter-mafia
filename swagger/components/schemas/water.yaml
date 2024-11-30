@@ -1,0 +1,27 @@
+type: object
+required:
+  - _id
+  - amount
+  - date
+  - currentDailyNorm
+  - createdAt
+properties:
+  _id:
+    description: "water's id"
+    type: string
+    example: 6723698bf32d9605f374736d
+  amount:
+    description: "water's amount"
+    type: number
+    example: '1.5'
+  date:
+    description: "Water's date"
+    type: number
+    example: 120
+  currentDailyNorm:
+    description: 'current daily norm'
+    type: number
+    example: 1.8
+  createdAt:
+    description: 'water note created at'
+    type: string
