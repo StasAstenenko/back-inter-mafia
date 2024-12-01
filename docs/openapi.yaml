@@ -7,14 +7,34 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   description: This is a documentation of AquaTrack app
 tags:
-  - name: Students
-    description: Operations about users.
-  - name: Auth
-    description: Auth operations.
+  - name: Water
+    description: Operations about water.
+  - name: Users
+    description: Users operations.
 servers:
-  - url: http://localhost:8080,
+  - url: http://localhost:8080
   - url: https://back-inter-mafia.onrender.com/api/v1
 paths:
+  /api/water:
+    get:
+      $ref: ../swagger/paths/water/get.yaml
+    post:
+      $ref: ../swagger/paths/water/post.yaml
+  /api/water/{id}:
+    patch:
+      $ref: ../swagger/paths/water/{id}/update.yaml
+    delete:
+      $ref: ../swagger/paths/water/{id}/delete.yaml
+
+  /api/users/register:
+    post:
+      $ref: ../swagger/paths/auth/signup.yaml
+  /api/users/login:
+    post:
+      $ref: ../swagger/paths/auth/signin.yaml
+  /api/users/logout:
+    post:
+      $ref: ../swagger/paths/auth/signout.yaml
 components:
   securitySchemes:
     bearerAuth:

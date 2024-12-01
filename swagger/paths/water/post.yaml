@@ -1,0 +1,74 @@
+tags:
+  - Water
+summary: Create a water note
+operationId: createWaterData
+description: 'Create a water note'
+security:
+  - bearerAuth: []
+requestBody:
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - amount
+          - date
+          - currentDailyNorm
+        properties:
+          amount:
+            description: 'Amount of water'
+            type: number
+            example: '1200'
+          date:
+            description: 'Date of water note'
+            type: string
+            example: '2024-11-30T14:45:12'
+          currentDailyNorm:
+            description: 'Daily norm of water'
+            type: string
+            example: '1500'
+responses:
+  '200':
+    description: Creates a water note
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successfully created a water info!
+            data:
+              type: object
+              $ref: '../../components/schemas/water.yaml'
+  '400':
+    description: 'Missing required fields'
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 400
+            message:
+              type: string
+              example: 'Missing required fields:  amount is required.'
+            data:
+              type: object
+              example: {}
+  '401':
+    $ref: '../../components/responses/401.yaml'
+  '500':
+    $ref: '../../components/responses/500.yaml'

@@ -4,7 +4,6 @@ required:
   - amount
   - date
   - currentDailyNorm
-  - createdAt
 properties:
   _id:
     description: "water's id"
@@ -13,15 +12,12 @@ properties:
   amount:
     description: "water's amount"
     type: number
-    example: '1.5'
+    example: '1500'
   date:
     description: "Water's date"
-    type: number
-    example: 120
+    type: string
+    example: '2024-11-30T14:45:12'
   currentDailyNorm:
     description: 'current daily norm'
     type: number
-    example: 1.8
-  createdAt:
-    description: 'water note created at'
-    type: string
+    example: 1800
