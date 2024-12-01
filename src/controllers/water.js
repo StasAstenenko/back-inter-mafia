@@ -3,7 +3,7 @@ import {
   createWaterData,
   deleteWaterData,
   getWater,
-  getWatersPerDay,
+  getWaterPerDay,
   updateWaterData,
 } from '../services/water.js';
 
@@ -19,8 +19,8 @@ export const getWaterDataController = async (req, res, next) => {
   });
 };
 
-export const getWatersPerDayController = async (req, res) => {
-  const waterPerDay = await getWatersPerDay();
+export const getWaterPerDayController = async (req, res) => {
+  const waterPerDay = await getWaterPerDay();
   res.status(200).json({
     status: 200,
     message: 'Successfully found data!',
@@ -33,7 +33,7 @@ export const createWaterDataController = async (req, res) => {
   const data = await createWaterData(body);
   res.status(200).json({
     status: 200,
-    message: 'Successfully create data!',
+    message: 'Successfully created data!',
     data,
   });
 };
@@ -47,7 +47,7 @@ export const deleteWaterDataController = async (req, res, next) => {
   }
   res.status(201).json({
     status: 201,
-    message: 'Successfully delete data!',
+    message: 'Successfully deleted data!',
     data,
   });
 };
@@ -58,7 +58,6 @@ export const updateWaterDataController = async (req, res, next) => {
   const waterData = {
     amount: req.body.amount,
     date: req.body.date,
-    currentDailyNorm: req.body.currentDailyNorm,
   };
 
   const data = await updateWaterData({ _id: waterId, waterData });
@@ -68,7 +67,7 @@ export const updateWaterDataController = async (req, res, next) => {
 
   res.status(200).json({
     status: 200,
-    message: 'Successfully update data!',
+    message: 'Successfully updated data!',
     data,
   });
 };

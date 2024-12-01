@@ -5,7 +5,7 @@ export const getWater = async () => {
   return data;
 };
 
-export const getWatersPerDay = async () => {
+export const getWaterPerDay = async () => {
   const waterPerDay = await WaterModel.find();
   return waterPerDay;
 };
