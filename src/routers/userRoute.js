@@ -13,7 +13,8 @@ import {
     logoutUserController,
     refreshUserSessionController,
     getUserInfoController,
-    patchUserInfoController
+    patchUserInfoController,
+    getCountUsersController
 } from '../controllers/users.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { upload } from '../middlewares/multer.js';
@@ -49,6 +50,11 @@ userRouter.patch(
     authenticate,
     validateBody(updateUserSchema),
     ctrlWrapper(patchUserInfoController),
+);
+
+userRouter.get(
+    '/count-user',
+    ctrlWrapper(getCountUsersController),
 );
 
 export default userRouter;

@@ -7,6 +7,7 @@ import {
   refreshUsersSession,
   getUserInfoBySession,
   updateUserInfoBySession,
+  getCountUsers
 } from '../services/user.js';
 import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
 import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
@@ -110,3 +111,15 @@ export const patchUserInfoController = async (req, res) => {
     data: updatedUser,
   });
 };
+
+
+export const getCountUsersController = async (req, res) => {
+  
+    const count = await getCountUsers();
+  
+    res.json({
+      status: 200,
+      message: 'Count users found successfully',
+      data: count,
+    });
+  };
