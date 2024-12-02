@@ -8,7 +8,7 @@ import {
 } from '../services/water.js';
 
 export const getWaterDataController = async (req, res, next) => {
-  const data = await getWater();
+  const data = await getWater({ userId: req.user._id });
   if (!data) {
     return next(createHttpError(404, 'Data not found'));
   }
@@ -30,7 +30,7 @@ export const getWaterPerDayController = async (req, res) => {
 
 export const createWaterDataController = async (req, res) => {
   const { body } = req;
-  const data = await createWaterData(body);
+  const data = await createWaterData({ ...body, userId: req.user._id });
   res.status(200).json({
     status: 200,
     message: 'Successfully created data!',
@@ -41,7 +41,7 @@ export const createWaterDataController = async (req, res) => {
 export const deleteWaterDataController = async (req, res, next) => {
   const { waterId } = req.params;
 
-  const data = await deleteWaterData({ _id: waterId });
+  const data = await deleteWaterData(waterId, req.user._id);
   if (!data) {
     return next(createHttpError(404, 'Data not found'));
   }
@@ -60,7 +60,7 @@ export const updateWaterDataController = async (req, res, next) => {
     date: req.body.date,
   };
 
-  const data = await updateWaterData({ _id: waterId, waterData });
+  const data = await updateWaterData(waterId, waterData, req.user._id);
   if (!data) {
     return next(createHttpError(404, 'Data not found'));
   }
