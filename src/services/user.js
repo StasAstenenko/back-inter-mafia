@@ -77,7 +77,9 @@ export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
 };
 
 export const getUserInfoBySession = async (sessionId) => {
-    const session = await SessionsCollection.findById(sessionId);
+    const session = await SessionsCollection.findOne({
+        _id: sessionId
+    });
     if (!session) {
         throw createHttpError(401, 'Session not found');
     }
@@ -91,7 +93,9 @@ export const getUserInfoBySession = async (sessionId) => {
 };
 
 export const updateUserInfoBySession = async (sessionId, payload) => {
-    const session = await SessionsCollection.findById(sessionId);
+    const session = await SessionsCollection.findOne({
+        _id: sessionId
+    });
     if (!session) {
         throw createHttpError(401, 'Session not found');
     }
