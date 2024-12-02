@@ -13,8 +13,11 @@ import {
   createValidationSchema,
   updateValidationSchema,
 } from '../validation/water.js';
+import { authenticate } from '../middlewares/authenticate.js';
 
 const waterRouter = express.Router();
+
+waterRouter.use(authenticate);
 
 waterRouter.get('/', ctrlWrapper(getWaterDataController));
 waterRouter.get('/:waterId', ctrlWrapper(getWaterPerDayController));
