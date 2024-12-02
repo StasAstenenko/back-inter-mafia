@@ -117,3 +117,8 @@ export const updateUserInfoBySession = async (sessionId, payload) => {
 
     return user;
 };
+
+export const getCountUsers = async () => {
+    const users = await UsersCollection.find();
+    return users.length;
+};
