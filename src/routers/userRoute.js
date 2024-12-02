@@ -17,6 +17,7 @@ import {
 } from '../controllers/users.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { upload } from '../middlewares/multer.js';
+import { authenticate } from '../middlewares/authenticate.js';
 
 const userRouter = Router();
 
@@ -38,12 +39,14 @@ userRouter.post('/refresh', ctrlWrapper(refreshUserSessionController));
 
 userRouter.get(
     '/',
+    authenticate,
     ctrlWrapper(getUserInfoController),
 );
 
 userRouter.patch(
     '/',
     upload.single('avatarUrl'),
+    authenticate,
     validateBody(updateUserSchema),
     ctrlWrapper(patchUserInfoController),
 );
