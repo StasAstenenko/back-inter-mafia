@@ -21,3 +21,8 @@ export const updateUserSchema = Joi.object({
     activeTime: Joi.number().min(0).max(24),
     dailyNorm: Joi.number().min(1000).max(15000)
 });
+
+export const resetPasswordSchema = Joi.object({
+  password: Joi.string().required(),
+  token: Joi.string().required(),
+});
