@@ -21,6 +21,7 @@ waterRouter.use(authenticate);
 
 waterRouter.get('/', ctrlWrapper(getWaterDataController));
 waterRouter.get('/water-per-day', ctrlWrapper(getWaterPerDateController));
+waterRouter.get('/water-per-month', ctrlWrapper(getWaterPerDateController));
 waterRouter.post(
   '/',
   validateBody(createValidationSchema),

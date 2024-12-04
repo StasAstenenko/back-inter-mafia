@@ -9,7 +9,7 @@ export const getWater = async ({ userId }) => {
 export const getWaterPerDate = async (userId, date) => {
   const waterData = await WaterModel.find({
     userId,
-    date: { $regex: `^${date.split('T')[0]}` },
+    date: { $regex: `^${date}` },
   });
 
   return waterData;
