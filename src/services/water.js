@@ -7,15 +7,9 @@ export const getWater = async ({ userId }) => {
 };
 
 export const getWaterPerDate = async (userId, date) => {
-  const startOfDay = `${date.split('T')[0]}T00:00:00`;
-  const endOfDay = `${date.split('T')[0]}T23:59:59`;
-
   const waterData = await WaterModel.find({
     userId,
-    date: {
-      $gte: startOfDay,
-      $lt: endOfDay,
-    },
+    date: { $regex: `^${date.split('T')[0]}` },
   });
 
   return waterData;
