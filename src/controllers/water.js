@@ -29,9 +29,12 @@ export const getWaterPerDateController = async (req, res, next) => {
     console.log(waterData);
 
     if (waterData.length === 0) {
-      return res.status(404).json({ message: 'No data found for this date' });
+      return res.status(200).json({
+        status: 200,
+        message: 'No data found for the selected date.',
+        data: [],
+      });
     }
-
     res.status(200).json({
       status: 200,
       message: 'Successfully retrieved data!',
