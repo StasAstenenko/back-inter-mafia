@@ -2,12 +2,17 @@ import { WaterModel } from '../db/models/waterSchema.js';
 
 export const getWater = async ({ userId }) => {
   const data = await WaterModel.find({ userId });
+  console.log(data);
   return data;
 };
 
-export const getWaterPerDay = async () => {
-  const waterPerDay = await WaterModel.find();
-  return waterPerDay;
+export const getWaterPerDate = async (userId, date) => {
+  const waterData = await WaterModel.find({
+    userId,
+    date: { $regex: `^${date}` },
+  });
+
+  return waterData;
 };
 
 export const createWaterData = async (payload) => {

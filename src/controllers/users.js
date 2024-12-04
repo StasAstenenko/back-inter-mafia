@@ -7,6 +7,7 @@ import {
   refreshUsersSession,
   getUserInfoBySession,
   updateUserInfoBySession,
+  getCountUsers,
 } from '../services/user.js';
 import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
 import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
@@ -14,16 +15,15 @@ import { env } from '../utils/env.js';
 import { setupSession } from '../utils/setupSession.js';
 
 export const registerUserController = async (req, res) => {
-
-    const user = await registerUser(req.body);
-    res.status(201).json({
-        status: 201,
-        data: user,
-    });
+  const user = await registerUser(req.body);
+  res.status(201).json({
+    status: 201,
+    data: user,
+  });
 };
 
 export const loginUserController = async (req, res) => {
-    const session = await loginUser(req.body);
+  const session = await loginUser(req.body);
 
   setupSession(res, session);
 
@@ -65,12 +65,7 @@ export const refreshUserSessionController = async (req, res) => {
 };
 
 export const getUserInfoController = async (req, res) => {
-  const sessionId = req.cookies.sessionId;
-  if (!sessionId) {
-    throw createHttpError(401, 'Unauthorized');
-  }
-
-  const user = await getUserInfoBySession(sessionId);
+  const user = await getUserInfoBySession(req.user);
 
   if (!user) {
     throw createHttpError(404, 'User not found');
@@ -84,13 +79,11 @@ export const getUserInfoController = async (req, res) => {
 };
 
 export const patchUserInfoController = async (req, res) => {
-  const sessionId = req.cookies.sessionId;
-  if (!sessionId) {
-    throw createHttpError(401, 'Unauthorized');
-  }
-
+  const userId = req.user;
   const photo = req.file;
+
   let photoUrl;
+
   if (photo) {
     if (env('ENABLE_CLOUDINARY') === 'true') {
       photoUrl = await saveFileToCloudinary(photo);
@@ -99,7 +92,7 @@ export const patchUserInfoController = async (req, res) => {
     }
   }
 
-  const updatedUser = await updateUserInfoBySession(sessionId, {
+  const updatedUser = await updateUserInfoBySession(userId, {
     ...req.body,
     avatarUrl: photoUrl,
   });
@@ -108,5 +101,15 @@ export const patchUserInfoController = async (req, res) => {
     status: 200,
     message: 'User info updated successfully',
     data: updatedUser,
+  });
+};
+
+export const getCountUsersController = async (req, res) => {
+  const count = await getCountUsers();
+
+  res.json({
+    status: 200,
+    message: 'Count users found successfully',
+    data: count,
   });
 };

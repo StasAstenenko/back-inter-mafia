@@ -5,7 +5,7 @@ import {
   createWaterDataController,
   deleteWaterDataController,
   getWaterDataController,
-  getWaterPerDayController,
+  getWaterPerDateController,
   updateWaterDataController,
 } from '../controllers/water.js';
 import { validateBody } from '../middlewares/validateBody.js';
@@ -20,8 +20,8 @@ const waterRouter = express.Router();
 waterRouter.use(authenticate);
 
 waterRouter.get('/', ctrlWrapper(getWaterDataController));
-waterRouter.get('/:waterId', ctrlWrapper(getWaterPerDayController));
-// waterRouter.get('/:userId/month');
+waterRouter.get('/water-per-day', ctrlWrapper(getWaterPerDateController));
+waterRouter.get('/water-per-month', ctrlWrapper(getWaterPerDateController));
 waterRouter.post(
   '/',
   validateBody(createValidationSchema),

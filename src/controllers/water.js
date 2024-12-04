@@ -3,12 +3,13 @@ import {
   createWaterData,
   deleteWaterData,
   getWater,
-  getWaterPerDay,
+  getWaterPerDate,
   updateWaterData,
 } from '../services/water.js';
 
 export const getWaterDataController = async (req, res, next) => {
   const data = await getWater({ userId: req.user._id });
+  console.log(data);
   if (!data) {
     return next(createHttpError(404, 'Data not found'));
   }
@@ -19,13 +20,29 @@ export const getWaterDataController = async (req, res, next) => {
   });
 };
 
-export const getWaterPerDayController = async (req, res) => {
-  const waterPerDay = await getWaterPerDay();
-  res.status(200).json({
-    status: 200,
-    message: 'Successfully found data!',
-    data: waterPerDay,
-  });
+export const getWaterPerDateController = async (req, res, next) => {
+  try {
+    const { date } = req.query;
+    const userId = req.user._id;
+
+    const waterData = await getWaterPerDate(userId, date);
+    console.log(waterData);
+
+    if (waterData.length === 0) {
+      return res.status(200).json({
+        status: 200,
+        message: 'No data found for the selected date.',
+        data: [],
+      });
+    }
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully retrieved data!',
+      data: waterData,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 export const createWaterDataController = async (req, res) => {
