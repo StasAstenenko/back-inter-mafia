@@ -7,11 +7,10 @@
     "start": "node ./src/index.js",
     "dev": "nodemon src/index.js"
   },
-  "type":"module",
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "final-project",
+  "description": "",
   "dependencies": {
     "20": "^3.1.9",
     "bcrypt": "^5.1.1",
@@ -20,6 +19,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
+    "google-auth-library": "^9.15.0",
     "handlebars": "^4.7.8",
     "http-errors": "^2.0.0",
     "joi": "^17.13.3",
@@ -44,6 +44,5 @@
   "bugs": {
     "url": "https://github.com/StasAstenenko/back-inter-mafia/issues"
   },
-  "homepage": "https://github.com/StasAstenenko/back-inter-mafia#readme",
-  "description": ""
+  "homepage": "https://github.com/StasAstenenko/back-inter-mafia#readme"
 }
