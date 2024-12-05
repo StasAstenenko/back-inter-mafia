@@ -5,23 +5,24 @@ import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import {
   registerUserSchema,
   loginUserSchema,
-    updateUserSchema,
-    requestResetEmailSchema,
-    resetPasswordSchema,
+  updateUserSchema,
+  requestResetEmailSchema,
+  resetPasswordSchema,
 } from '../validation/users.js';
 import {
-    registerUserController,
-    loginUserController,
-    logoutUserController,
-    refreshUserSessionController,
-    getUserInfoController,
-    patchUserInfoController,
-    getCountUsersController,
-    requestResetEmailController,
-    resetPasswordController,
+  registerUserController,
+  loginUserController,
+  logoutUserController,
+  refreshUserSessionController,
+  getUserInfoController,
+  patchUserInfoController,
+  getCountUsersController,
+  requestResetEmailController,
+  resetPasswordController,
 } from '../controllers/users.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { upload } from '../middlewares/multer.js';
+import { authenticate } from '../middlewares/authenticate.js';
 
 const userRouter = Router();
 
@@ -41,10 +42,11 @@ userRouter.post('/logout', ctrlWrapper(logoutUserController));
 
 userRouter.post('/refresh', ctrlWrapper(refreshUserSessionController));
 
-userRouter.get('/', ctrlWrapper(getUserInfoController));
+userRouter.get('/', authenticate, ctrlWrapper(getUserInfoController));
 
 userRouter.patch(
   '/',
+  authenticate,
   upload.single('avatarUrl'),
   validateBody(updateUserSchema),
   ctrlWrapper(patchUserInfoController),
