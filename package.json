@@ -1,17 +1,18 @@
 {
   "name": "back-inter-mafia",
   "version": "1.0.0",
-  "type": "module",
   "main": "index.js",
   "scripts": {
     "start": "node ./src/index.js",
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "build-docs": "redocly bundle --ext json -o docs/swagger.json",
+    "preview-docs": "redocly preview-docs"
   },
-  "type":"module",
+  "type": "module",
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "final-project",
+  "description": "",
   "dependencies": {
     "20": "^3.1.9",
     "bcrypt": "^5.1.1",
@@ -32,6 +33,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
+    "@redocly/cli": "^1.25.14",
     "eslint": "^9.15.0",
     "globals": "^15.12.0",
     "nodemon": "^3.1.7",
@@ -44,6 +46,5 @@
   "bugs": {
     "url": "https://github.com/StasAstenenko/back-inter-mafia/issues"
   },
-  "homepage": "https://github.com/StasAstenenko/back-inter-mafia#readme",
-  "description": ""
+  "homepage": "https://github.com/StasAstenenko/back-inter-mafia#readme"
 }

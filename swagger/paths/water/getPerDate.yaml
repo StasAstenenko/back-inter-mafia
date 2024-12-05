@@ -1,0 +1,43 @@
+tags:
+  - Water
+summary: Get water per date
+operationId: getWaterPerDate
+description: Get water consumption records for a specific date.
+security:
+  - bearerAuth: []
+parameters:
+  - in: query
+    name: date
+    required: true
+    schema:
+      type: string
+      format: date
+      example: '2024-12-04'
+responses:
+  '200':
+    description: Successfully found water information!
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successfully found water information!
+            data:
+              type: array
+              items:
+                $ref: '../../components/schemas/water.yaml'
+  '401':
+    $ref: '../../components/responses/401.yaml'
+  '404':
+    $ref: '../../components/responses/404nf.yaml'
+  '500':
+    $ref: '../../components/responses/500.yaml'

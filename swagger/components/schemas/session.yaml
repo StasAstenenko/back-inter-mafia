@@ -1,0 +1,22 @@
+type: object
+properties:
+  _id:
+    type: string
+    description: Unique session identifier
+  userId:
+    type: string
+    description: User's ID associated with this session
+  accessToken:
+    type: string
+    description: The access token for the session
+  refreshToken:
+    type: string
+    description: The refresh token for the session
+  accessTokenValidUntil:
+    type: string
+    format: date-time
+    description: Expiry date and time of the access token
+  refreshTokenValidUntil:
+    type: string
+    format: date-time
+    description: Expiry date and time of the refresh token

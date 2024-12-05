@@ -1,0 +1,56 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: AquaTrack
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  description: This is a documentation of AquaTrack app
+tags:
+  - name: Water
+    description: Operations about water.
+  - name: Users
+    description: Users operations.
+servers:
+  - url: https://back-inter-mafia.onrender.com/api/v1
+paths:
+  /api/water:
+    get:
+      $ref: ../swagger/paths/water/get.yaml
+    post:
+      $ref: ../swagger/paths/water/post.yaml
+  /api/water/{id}:
+    patch:
+      $ref: ../swagger/paths/water/{id}/update.yaml
+    delete:
+      $ref: ../swagger/paths/water/{id}/delete.yaml
+  /api/water/water-per-day:
+    get:
+      $ref: ../swagger/paths/water/getPerDate.yaml
+
+  /api/users/register:
+    post:
+      $ref: ../swagger/paths/auth/signup.yaml
+  /api/users/login:
+    post:
+      $ref: ../swagger/paths/auth/signin.yaml
+  /api/users/logout:
+    post:
+      $ref: ../swagger/paths/auth/signout.yaml
+  /api/users/refresh:
+    post:
+      $ref: ../swagger/paths/auth/refresh.yaml
+  /api/users:
+    get:
+      $ref: ../swagger/paths/auth/getUserBySession.yaml
+    post:
+      $ref: ../swagger/paths/auth/updateUserInfoBySession.yaml
+  /api/count-user:
+    get:
+      $ref: ../swagger/paths/auth/countUser.yaml
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
