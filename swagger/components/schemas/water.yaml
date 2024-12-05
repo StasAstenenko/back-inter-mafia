@@ -3,7 +3,6 @@ required:
   - _id
   - amount
   - date
-  - currentDailyNorm
 properties:
   _id:
     description: "water's id"
@@ -17,7 +16,3 @@ properties:
     description: "Water's date"
     type: string
     example: '2024-11-30T14:45:12'
-  currentDailyNorm:
-    description: 'current daily norm'
-    type: number
-    example: 1800

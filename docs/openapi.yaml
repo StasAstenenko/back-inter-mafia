@@ -12,7 +12,6 @@ tags:
   - name: Users
     description: Users operations.
 servers:
-  - url: http://localhost:8080
   - url: https://back-inter-mafia.onrender.com/api/v1
 paths:
   /api/water:
@@ -25,6 +24,9 @@ paths:
       $ref: ../swagger/paths/water/{id}/update.yaml
     delete:
       $ref: ../swagger/paths/water/{id}/delete.yaml
+  /api/water/water-per-day:
+    get:
+      $ref: ../swagger/paths/water/getPerDate.yaml
 
   /api/users/register:
     post:
@@ -35,6 +37,18 @@ paths:
   /api/users/logout:
     post:
       $ref: ../swagger/paths/auth/signout.yaml
+  /api/users/refresh:
+    post:
+      $ref: ../swagger/paths/auth/refresh.yaml
+  /api/users:
+    get:
+      $ref: ../swagger/paths/auth/getUserBySession.yaml
+    post:
+      $ref: ../swagger/paths/auth/updateUserInfoBySession.yaml
+  /api/count-user:
+    get:
+      $ref: ../swagger/paths/auth/countUser.yaml
+
 components:
   securitySchemes:
     bearerAuth:

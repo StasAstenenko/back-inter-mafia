@@ -13,7 +13,6 @@ requestBody:
         required:
           - amount
           - date
-          - currentDailyNorm
         properties:
           amount:
             description: 'Amount of water'
@@ -23,10 +22,6 @@ requestBody:
             description: 'Date of water note'
             type: string
             example: '2024-11-30T14:45:12'
-          currentDailyNorm:
-            description: 'Daily norm of water'
-            type: string
-            example: '1500'
 responses:
   '200':
     description: Creates a water note
@@ -70,5 +65,7 @@ responses:
               example: {}
   '401':
     $ref: '../../components/responses/401.yaml'
+  '404':
+    $ref: '../../components/responses/404nf.yaml'
   '500':
     $ref: '../../components/responses/500.yaml'
