@@ -13,7 +13,9 @@ const oauthConfig = JSON.parse(await readFile(PATH_JSON));
 const googleOAuthClient = new OAuth2Client({
   clientId: env('GOOGLE_AUTH_CLIENT_ID'),
   clientSecret: env('GOOGLE_AUTH_CLIENT_SECRET'),
-  redirectUri: oauthConfig.web.redirect_uris[0] /* 1 ДЛЯ ЛОКАЛ ХОСТ  */,
+  redirectUri:
+    oauthConfig.web
+      .redirect_uris[3] /* 0 - back, 1 ДЛЯ ЛОКАЛ ХОСТ back, 2 localhost front, 3 - front */,
 });
 
 export const generateAuthUrl = () =>
@@ -26,6 +28,7 @@ export const generateAuthUrl = () =>
 
 export const validateCode = async (code) => {
   const response = await googleOAuthClient.getToken(code);
+  console.log(response);
   if (!response.tokens.id_token) throw createHttpError(401, 'Unauthorized');
 
   const ticket = await googleOAuthClient.verifyIdToken({

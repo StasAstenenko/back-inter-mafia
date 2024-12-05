@@ -6,7 +6,10 @@ import { UsersCollection } from '../db/models/usersSchema.js';
 import { SessionsCollection } from '../db/models/sessionsSchema.js';
 import { FIFTEEN_MINUTES, THIRTY_DAYS } from '../constants/index.js';
 import { createSession } from '../utils/createSession.js';
-import { getFullNameFromGoogleTokenPayload, validateCode } from '../utils/googleOAuth2.js';
+import {
+  getFullNameFromGoogleTokenPayload,
+  validateCode,
+} from '../utils/googleOAuth2.js';
 
 export const registerUser = async (payload) => {
   const user = await UsersCollection.findOne({ email: payload.email });
@@ -122,7 +125,6 @@ export const loginOrSignupWithGoogle = async (code) => {
       email: payload.email,
       name: getFullNameFromGoogleTokenPayload(payload),
       password,
-      role: 'parent',
     });
   }
 
