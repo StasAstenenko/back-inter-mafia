@@ -5,7 +5,9 @@ import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import {
     registerUserSchema,
     loginUserSchema,
-    updateUserSchema
+    updateUserSchema,
+    requestResetEmailSchema,
+    resetPasswordSchema,
 } from '../validation/users.js';
 import {
     registerUserController,
@@ -14,7 +16,9 @@ import {
     refreshUserSessionController,
     getUserInfoController,
     patchUserInfoController,
-    getCountUsersController
+    getCountUsersController,
+    requestResetEmailController,
+    resetPasswordController,
 } from '../controllers/users.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { upload } from '../middlewares/multer.js';
@@ -55,6 +59,19 @@ userRouter.patch(
 userRouter.get(
     '/count-user',
     ctrlWrapper(getCountUsersController),
+);
+
+// Reset Password Functionality
+userRouter.post(
+  '/send-reset-email',
+  validateBody(requestResetEmailSchema),
+  ctrlWrapper(requestResetEmailController),
+);
+
+userRouter.post(
+  '/reset-pwd',
+  validateBody(resetPasswordSchema),
+  ctrlWrapper(resetPasswordController),
 );
 
 export default userRouter;
