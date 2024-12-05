@@ -1,9 +1,10 @@
-//.gitignore
+# II-777
+.extras
+./src/utils/env.js
 
+# Other 
 /node_modules
-
 .env
-
 .vscode
 .DS_Store
 .idea
