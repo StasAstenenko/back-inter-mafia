@@ -57,9 +57,8 @@ export const logoutUser = async (sessionId) => {
   await SessionsCollection.deleteOne({ _id: sessionId });
 };
 
-export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
+export const refreshUsersSession = async (refreshToken) => {
   const session = await SessionsCollection.findOne({
-    _id: sessionId,
     refreshToken,
   });
 
@@ -71,7 +70,7 @@ export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
   if (isSessionTokenExpired)
     throw createHttpError(401, 'Session token expired');
 
-  await SessionsCollection.deleteOne({ _id: sessionId, refreshToken });
+  await SessionsCollection.deleteOne({ refreshToken });
 
   const newSession = createSession();
 
@@ -138,7 +137,7 @@ export const requestResetToken = async (email) => {
     await fs.readFile(resetPasswordTemplatePath)
   ).toString();
   const template = handlebars.compile(templateSource);
-  console.log(user); 
+  console.log(user);
   const html = template({
     name: user.name || 'Guest',
     link: `${env('APP_DOMAIN')}reset-pwd?token=${resetToken}`,
