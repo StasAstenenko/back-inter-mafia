@@ -3,18 +3,26 @@ import { Router } from 'express';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 
 import {
-  registerUserSchema,
-  loginUserSchema,
+  
   updateUserSchema,
 } from '../validation/users.js';
 import {
-  registerUserController,
-  loginUserController,
-  logoutUserController,
-  refreshUserSessionController,
-  getUserInfoController,
-  patchUserInfoController,
-  getCountUsersController,
+  registerUserSchema,
+  loginUserSchema,
+    updateUserSchema,
+    requestResetEmailSchema,
+    resetPasswordSchema,
+} from '../validation/users.js';
+import {
+    registerUserController,
+    loginUserController,
+    logoutUserController,
+    refreshUserSessionController,
+    getUserInfoController,
+    patchUserInfoController,
+    getCountUsersController,
+    requestResetEmailController,
+    resetPasswordController,
 } from '../controllers/users.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { upload } from '../middlewares/multer.js';
@@ -47,5 +55,18 @@ userRouter.patch(
 );
 
 userRouter.get('/count-user', ctrlWrapper(getCountUsersController));
+
+// Reset Password Functionality
+userRouter.post(
+  '/send-reset-email',
+  validateBody(requestResetEmailSchema),
+  ctrlWrapper(requestResetEmailController),
+);
+
+userRouter.post(
+  '/reset-pwd',
+  validateBody(resetPasswordSchema),
+  ctrlWrapper(resetPasswordController),
+);
 
 export default userRouter;

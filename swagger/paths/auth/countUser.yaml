@@ -1,0 +1,41 @@
+tags:
+  - Users
+summary: Get amount of all users
+operationId: getCountUsers
+security:
+  - bearerAuth: []
+description: Get amount of all users that have been registered in our system
+responses:
+  '200':
+    description: Successfully found user count info!
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successfully found user count info!
+            data:
+              type: object
+              required:
+                - data
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../../components/schemas/user.yaml'
+  '401':
+    $ref: '../../components/responses/401.yaml'
+  '404':
+    $ref: '../../components/responses/404nf.yaml'
+
+  '500':
+    $ref: '../../components/responses/500.yaml'

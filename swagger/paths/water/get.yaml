@@ -1,0 +1,38 @@
+tags:
+  - Water
+summary: Get all water
+operationId: getWater
+description: 'Get all water information'
+security:
+  - bearerAuth: []
+responses:
+  '200':
+    description: Successfully found water info!
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successfully found water information!
+            data:
+              type: object
+              required:
+                - data
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../../components/schemas/water.yaml'
+  '401':
+    $ref: '../../components/responses/401.yaml'
+  '500':
+    $ref: '../../components/responses/500.yaml'

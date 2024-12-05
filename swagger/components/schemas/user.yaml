@@ -1,0 +1,44 @@
+type: object
+required:
+  - _id
+  - email
+  - password
+properties:
+  _id:
+    description: "User's unique identifier"
+    type: string
+    example: '65e4decdd286b30065d54af9'
+  email:
+    description: "User's email address"
+    type: string
+    format: email
+    example: 'johndoe@example.com'
+  password:
+    description: "User's password (hashed)"
+    type: string
+    example: '$2b$10$7a4d5cf56e2d33d6e2e9ad26384b2b6f4e1f8ac3cd10421d7f00a'
+  name:
+    description: "User's full name"
+    type: string
+    example: 'John Doe'
+  avatarUrl:
+    description: "User's avatar"
+    type: string
+    example:
+  gender:
+    description: "User's gender"
+    type: string
+    enum: ['woman', 'man']
+    default: 'woman'
+  weight:
+    description: "User's weight"
+    type: number
+    default: 0
+  activeTime:
+    description: "User's active time"
+    type: number
+    default: 0
+  dailyNorm:
+    description: "User's water daily norm"
+    type: number
+    default: 1500

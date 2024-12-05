@@ -1,0 +1,18 @@
+type: object
+required:
+  - _id
+  - amount
+  - date
+properties:
+  _id:
+    description: "water's id"
+    type: string
+    example: 6723698bf32d9605f374736d
+  amount:
+    description: "water's amount"
+    type: number
+    example: '1500'
+  date:
+    description: "Water's date"
+    type: string
+    example: '2024-11-30T14:45:12'
