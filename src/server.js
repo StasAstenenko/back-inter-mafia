@@ -21,7 +21,11 @@ export const setupServer = () => {
       limit: '100kb',
     }),
   );
-  app.use(cors());
+  app.use(
+    cors({
+      credentials: true,
+    }),
+  );
   app.use(cookieParser());
 
   app.use(
