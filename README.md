@@ -56,6 +56,28 @@ This repository contains the backend code for the AquaTrack app, designed to hel
   - Method: GET
   - URL: http://localhost:8080/api/users/count-user
 
+6. Send Password Reset Email (POST /api/users/send-reset-email)
+  - Method: POST
+  - URL: http://localhost:8080/api/users/send-reset-email
+  - Body: 
+```json
+{
+    "email": "newuser@example.com"
+}
+```
+
+7. Reset Password (POST http://localhost:8080/api/users/reset-pwd)
+  - Method: POST
+  - URL: http://localhost:8080/api/users/users/reset-pwd
+  - Body:
+
+```json
+{
+    "token": "token",
+    "password": "password"
+}
+```
+
 ### /water Endpoints
 1. Get Water Data (GET /api/water/)
   - Method: GET
