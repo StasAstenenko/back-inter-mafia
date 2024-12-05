@@ -40,7 +40,11 @@ userRouter.post(
 
 userRouter.post('/logout', ctrlWrapper(logoutUserController));
 
-userRouter.post('/refresh', ctrlWrapper(refreshUserSessionController));
+userRouter.post(
+  '/refresh',
+  authenticate,
+  ctrlWrapper(refreshUserSessionController),
+);
 
 userRouter.get('/', authenticate, ctrlWrapper(getUserInfoController));
 
