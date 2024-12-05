@@ -3,10 +3,6 @@ import { Router } from 'express';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 
 import {
-  
-  updateUserSchema,
-} from '../validation/users.js';
-import {
   registerUserSchema,
   loginUserSchema,
     updateUserSchema,
