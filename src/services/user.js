@@ -57,9 +57,9 @@ export const refreshUsersSession = async (sessionId, refreshToken) => {
   });
 
   if (!session) throw createHttpError(401, 'Session not found');
-  if (new Date() > session.refreshTokenValidUntil) {
-    throw createHttpError(401, 'Refresh token is expired');
-  }
+  // if (new Date() > session.refreshTokenValidUntil) {
+  //   throw createHttpError(401, 'Refresh token is expired');
+  // }
   const user = await UsersCollection.findById(session.userId);
   console.log(session.userId);
   if (!user) {
