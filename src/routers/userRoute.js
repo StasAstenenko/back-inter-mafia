@@ -6,9 +6,9 @@ import {
   registerUserSchema,
   loginUserSchema,
   updateUserSchema,
-  loginWithGoogleOAuthSchema,
   requestResetEmailSchema,
   resetPasswordSchema,
+  loginWithGoogleOAuthSchema,
 } from '../validation/users.js';
 import {
   registerUserController,
@@ -18,10 +18,10 @@ import {
   getUserInfoController,
   patchUserInfoController,
   getCountUsersController,
-  loginWithGoogleController,
-  getGoogleOAuthUrlController,
   requestResetEmailController,
   resetPasswordController,
+  loginWithGoogleController,
+  getGoogleOAuthUrlController,
 } from '../controllers/users.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { upload } from '../middlewares/multer.js';

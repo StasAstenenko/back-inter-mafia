@@ -52,7 +52,6 @@ export const logoutUserController = async (req, res) => {
 };
 
 export const refreshUserSessionController = async (req, res) => {
-
   const { sessionId, refreshToken } = req.cookies;
   const session = await refreshUsersSession(sessionId, refreshToken);
   setupSession(res, session);
@@ -115,6 +114,23 @@ export const getCountUsersController = async (req, res) => {
   });
 };
 
+export const requestResetEmailController = async (req, res) => {
+  await requestResetToken(req.body.email);
+  res.json({
+    message: 'Reset password email was successfully sent!',
+    status: 200,
+    data: {},
+  });
+};
+
+export const resetPasswordController = async (req, res) => {
+  await resetPassword(req.body);
+  res.json({
+    message: 'Password was successfully reset!',
+    status: 200,
+    data: {},
+  });
+};
 
 export const getGoogleOAuthUrlController = async (req, res) => {
   const url = generateAuthUrl();
@@ -137,23 +153,5 @@ export const loginWithGoogleController = async (req, res) => {
     data: {
       accessToken: session.accessToken,
     },
-  });
-  };
-
-export const requestResetEmailController = async (req, res) => {
-  await requestResetToken(req.body.email);
-  res.json({
-    message: 'Reset password email was successfully sent!',
-    status: 200,
-    data: {},
-  });
-};
-
-export const resetPasswordController = async (req, res) => {
-  await resetPassword(req.body);
-  res.json({
-    message: 'Password was successfully reset!',
-    status: 200,
-    data: {},
   });
 };
