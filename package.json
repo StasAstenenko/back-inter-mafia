@@ -1,12 +1,14 @@
 {
   "name": "back-inter-mafia",
   "version": "1.0.0",
-  "type": "module",
   "main": "index.js",
   "scripts": {
     "start": "node ./src/index.js",
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "build-docs": "redocly bundle --ext json -o docs/swagger.json",
+    "preview-docs": "redocly preview-docs"
   },
+  "type": "module",
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -32,6 +34,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
+    "@redocly/cli": "^1.25.14",
     "eslint": "^9.15.0",
     "globals": "^15.12.0",
     "nodemon": "^3.1.7",

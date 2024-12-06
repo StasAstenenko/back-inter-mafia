@@ -7,6 +7,8 @@ import {
   loginUserSchema,
   updateUserSchema,
   loginWithGoogleOAuthSchema,
+  requestResetEmailSchema,
+  resetPasswordSchema,
 } from '../validation/users.js';
 import {
   registerUserController,
@@ -18,6 +20,8 @@ import {
   getCountUsersController,
   loginWithGoogleController,
   getGoogleOAuthUrlController,
+  requestResetEmailController,
+  resetPasswordController,
 } from '../controllers/users.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { upload } from '../middlewares/multer.js';
@@ -42,11 +46,20 @@ userRouter.post('/logout', ctrlWrapper(logoutUserController));
 userRouter.post('/refresh', ctrlWrapper(refreshUserSessionController));
 
 userRouter.get('/', authenticate, ctrlWrapper(getUserInfoController));
+userRouter.post(
+  '/refresh',
+  authenticate,
+  ctrlWrapper(refreshUserSessionController),
+);
+
+userRouter.get('/', authenticate, ctrlWrapper(getUserInfoController));
 
 userRouter.patch(
   '/',
   upload.single('avatarUrl'),
   authenticate,
+  authenticate,
+  upload.single('avatarUrl'),
   validateBody(updateUserSchema),
   ctrlWrapper(patchUserInfoController),
 );
@@ -59,6 +72,19 @@ userRouter.post(
   '/google-auth',
   validateBody(loginWithGoogleOAuthSchema),
   ctrlWrapper(loginWithGoogleController),
+);
+
+// Reset Password Functionality
+userRouter.post(
+  '/send-reset-email',
+  validateBody(requestResetEmailSchema),
+  ctrlWrapper(requestResetEmailController),
+);
+
+userRouter.post(
+  '/reset-pwd',
+  validateBody(resetPasswordSchema),
+  ctrlWrapper(resetPasswordController),
 );
 
 export default userRouter;

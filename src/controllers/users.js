@@ -8,6 +8,8 @@ import {
   getUserInfoBySession,
   updateUserInfoBySession,
   getCountUsers,
+  requestResetToken,
+  resetPassword,
   loginOrSignupWithGoogle,
 } from '../services/user.js';
 import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
@@ -50,13 +52,10 @@ export const logoutUserController = async (req, res) => {
 };
 
 export const refreshUserSessionController = async (req, res) => {
-  const session = await refreshUsersSession({
-    sessionId: req.cookies.sessionId,
-    refreshToken: req.cookies.refreshToken,
-  });
 
+  const { sessionId, refreshToken } = req.cookies;
+  const session = await refreshUsersSession(sessionId, refreshToken);
   setupSession(res, session);
-
   res.json({
     status: 200,
     message: 'Successfully refreshed a session!',
@@ -116,6 +115,7 @@ export const getCountUsersController = async (req, res) => {
   });
 };
 
+
 export const getGoogleOAuthUrlController = async (req, res) => {
   const url = generateAuthUrl();
   res.json({
@@ -137,5 +137,23 @@ export const loginWithGoogleController = async (req, res) => {
     data: {
       accessToken: session.accessToken,
     },
+  });
+  };
+
+export const requestResetEmailController = async (req, res) => {
+  await requestResetToken(req.body.email);
+  res.json({
+    message: 'Reset password email was successfully sent!',
+    status: 200,
+    data: {},
+  });
+};
+
+export const resetPasswordController = async (req, res) => {
+  await resetPassword(req.body);
+  res.json({
+    message: 'Password was successfully reset!',
+    status: 200,
+    data: {},
   });
 };
