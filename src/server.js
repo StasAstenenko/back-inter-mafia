@@ -25,7 +25,7 @@ export const setupServer = () => {
   app.use(
     cors({
       // origin: 'http://localhost:5173', // URL вашого фронтенда
-      origin: 'https://frontend-inter-mafia.vercel.app', // URL вашого фронтенда
+      origin: 'https://frontend-inter-mafia.vercel.app',
       credentials: true,
     }),
   );
