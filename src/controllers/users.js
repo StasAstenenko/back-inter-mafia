@@ -49,19 +49,27 @@ export const logoutUserController = async (req, res) => {
   res.status(204).send();
 };
 
+// Контролер для оновлення сесії
 export const refreshUserSessionController = async (req, res) => {
-
-  const { sessionId, refreshToken } = req.cookies;
-  const session = await refreshUsersSession(sessionId, refreshToken);
-  setupSession(res, session);
-  res.json({
+  try {
+    const session = await refreshUsersSession({
+      sessionId: req.cookies.sessionId,
+      refreshToken: req.cookies.refreshToken,
+    });
+    setupSession(res, session);
+    res.json({
     status: 200,
     message: 'Successfully refreshed a session!',
     data: {
       accessToken: session.accessToken,
     },
   });
+  } catch (error) {
+    res.status(error.status || 500).json({ message: error.message });
+  }
 };
+
+
 
 export const getUserInfoController = async (req, res) => {
   const user = await getUserInfoBySession(req.user);

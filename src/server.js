@@ -11,6 +11,7 @@ import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { UPLOAD_DIR } from './constants/index.js';
 import { swaggerDocs } from './middlewares/swaggerDocs.js';
 
+
 const PORT = Number(env('PORT', '8080'));
 
 export const setupServer = () => {
@@ -23,6 +24,8 @@ export const setupServer = () => {
   );
   app.use(
     cors({
+      // origin: 'http://localhost:5173', // URL вашого фронтенда
+      origin: 'https://frontend-inter-mafia.vercel.app', // URL вашого фронтенда
       credentials: true,
     }),
   );
@@ -42,7 +45,13 @@ export const setupServer = () => {
       message: 'Hello world!',
     });
   });
-
+  app.use((req, res, next) => {
+    console.log('Received request to refresh session', {
+      cookies: req.cookies,
+      body: req.body,
+    });
+    next();
+  });
   app.use(router);
 
   app.use('/uploads', express.static(UPLOAD_DIR));
