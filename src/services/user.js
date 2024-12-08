@@ -50,25 +50,56 @@ export const logoutUser = async (sessionId) => {
   await SessionsCollection.deleteOne({ _id: sessionId });
 };
 
-export const refreshUsersSession = async (sessionId, refreshToken) => {
+// export const refreshUsersSession = async (sessionId, refreshToken) => {
+//   const session = await SessionsCollection.findOne({
+//     refreshToken,
+//     _id: sessionId,
+//   });
+
+//   if (!session) throw createHttpError(401, 'Session not found');
+//   // if (new Date() > session.refreshTokenValidUntil) {
+//   //   throw createHttpError(401, 'Refresh token is expired');
+//   // }
+//   const user = await UsersCollection.findById(session.userId);
+//   console.log(session.userId);
+//   if (!user) {
+//     throw createHttpError(404, 'Session not found');
+//   }
+//   await SessionsCollection.deleteOne({ _id: sessionId });
+//   return SessionsCollection.create({ userId: user._id, ...createSession() });
+// };
+
+export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
+  // Знайдіть існуючу сесію
   const session = await SessionsCollection.findOne({
-    refreshToken,
     _id: sessionId,
+    refreshToken,
   });
 
-  if (!session) throw createHttpError(401, 'Session not found');
-  // if (new Date() > session.refreshTokenValidUntil) {
-  //   throw createHttpError(401, 'Refresh token is expired');
-  // }
-  const user = await UsersCollection.findById(session.userId);
-  console.log(session.userId);
-  if (!user) {
-    throw createHttpError(404, 'Session not found');
+  // Якщо сесія не знайдена, викликайте помилку
+  if (!session) {
+    throw createHttpError(401, 'Session not found');
   }
-  await SessionsCollection.deleteOne({ _id: sessionId });
-  return SessionsCollection.create({ userId: user._id, ...createSession() });
-};
 
+  // Перевірте, чи минув термін дії токену
+  const isSessionTokenExpired = new Date() > new Date(session.refreshTokenValidUntil);
+
+  if (isSessionTokenExpired) {
+    throw createHttpError(401, 'Session token expired');
+  }
+
+  // Видаліть стару сесію
+  await SessionsCollection.deleteOne({ _id: sessionId });
+
+  // Створіть нову сесію
+  const newSession = createSession();
+
+  // Додайте нову сесію для користувача
+  return await SessionsCollection.create({
+    userId: session.userId,
+    ...newSession,
+  });
+};
 export const getUserInfoBySession = async (userId) => {
   const user = await UsersCollection.findOne({ _id: userId });
 
