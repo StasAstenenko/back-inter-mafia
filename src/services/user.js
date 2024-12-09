@@ -43,7 +43,7 @@ export const loginUser = async (payload) => {
     ...createSession(),
   });
 
-  return session;
+  return { session, user };
 };
 
 export const logoutUser = async (sessionId) => {
@@ -69,37 +69,37 @@ export const logoutUser = async (sessionId) => {
 //   return SessionsCollection.create({ userId: user._id, ...createSession() });
 // };
 
-export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
-  // Знайдіть існуючу сесію
-  const session = await SessionsCollection.findOne({
-    _id: sessionId,
-    refreshToken,
-  });
+// export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
+//   // Знайдіть існуючу сесію
+//   const session = await SessionsCollection.findOne({
+//     _id: sessionId,
+//     refreshToken,
+//   });
 
-  // Якщо сесія не знайдена, викликайте помилку
-  if (!session) {
-    throw createHttpError(401, 'Session not found');
-  }
+//   // Якщо сесія не знайдена, викликайте помилку
+//   if (!session) {
+//     throw createHttpError(401, 'Session not found');
+//   }
 
-  // Перевірте, чи минув термін дії токену
-  const isSessionTokenExpired = new Date() > new Date(session.refreshTokenValidUntil);
+//   // Перевірте, чи минув термін дії токену
+//   const isSessionTokenExpired = new Date() > new Date(session.refreshTokenValidUntil);
 
-  if (isSessionTokenExpired) {
-    throw createHttpError(401, 'Session token expired');
-  }
+//   if (isSessionTokenExpired) {
+//     throw createHttpError(401, 'Session token expired');
+//   }
 
-  // Видаліть стару сесію
-  await SessionsCollection.deleteOne({ _id: sessionId });
+//   // Видаліть стару сесію
+//   await SessionsCollection.deleteOne({ _id: sessionId });
 
-  // Створіть нову сесію
-  const newSession = createSession();
+//   // Створіть нову сесію
+//   const newSession = createSession();
 
-  // Додайте нову сесію для користувача
-  return await SessionsCollection.create({
-    userId: session.userId,
-    ...newSession,
-  });
-};
+//   // Додайте нову сесію для користувача
+//   return await SessionsCollection.create({
+//     userId: session.userId,
+//     ...newSession,
+//   });
+// };
 export const getUserInfoBySession = async (userId) => {
   const user = await UsersCollection.findOne({ _id: userId });
 

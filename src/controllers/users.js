@@ -4,7 +4,6 @@ import {
   registerUser,
   loginUser,
   logoutUser,
-  refreshUsersSession,
   getUserInfoBySession,
   updateUserInfoBySession,
   getCountUsers,
@@ -15,7 +14,8 @@ import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
 import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
 import { env } from '../utils/env.js';
 import { setupSession } from '../utils/setupSession.js';
-
+import { refreshUsersSession } from '../utils/refreshSession.js';
+import { UsersCollection } from '../db/models/usersSchema.js';
 export const registerUserController = async (req, res) => {
   const user = await registerUser(req.body);
   res.status(201).json({
@@ -25,15 +25,15 @@ export const registerUserController = async (req, res) => {
 };
 
 export const loginUserController = async (req, res) => {
-  const session = await loginUser(req.body);
-
-  setupSession(res, session);
+  const data = await loginUser(req.body);
+  setupSession(res, data.session);
 
   res.json({
     status: 200,
     message: 'Successfully logged in an user!',
     data: {
-      accessToken: session.accessToken,
+      accessToken: data.session.accessToken,
+      user: data.user,
     },
   });
 };
@@ -50,26 +50,42 @@ export const logoutUserController = async (req, res) => {
 };
 
 // Контролер для оновлення сесії
+// export const refreshUserSessionController = async (req, res) => {
+//   try {
+//     const session = await refreshUsersSession({
+//       sessionId: req.cookies.sessionId,
+//       refreshToken: req.cookies.refreshToken,
+//     });
+
+//     refreshUsersSession(res, session);
+//     res.json({
+//       status: 200,
+//       message: 'Successfully refreshed a session!',
+//       data: {
+//         accessToken: session.accessToken,
+//       },
+//     });
+//   } catch (error) {
+//     res.status(error.status || 500).json({ message: error.message });
+//   }
+// };
 export const refreshUserSessionController = async (req, res) => {
-  try {
-    const session = await refreshUsersSession({
-      sessionId: req.cookies.sessionId,
-      refreshToken: req.cookies.refreshToken,
-    });
-    setupSession(res, session);
-    res.json({
+  const session = await refreshUsersSession({
+    sessionId: req.cookies.sessionId,
+    refreshToken: req.cookies.refreshToken,
+  });
+  const user = await UsersCollection.findOne({ _id: session.userId });
+  setupSession(res, session);
+
+  res.json({
     status: 200,
     message: 'Successfully refreshed a session!',
     data: {
       accessToken: session.accessToken,
+      user,
     },
   });
-  } catch (error) {
-    res.status(error.status || 500).json({ message: error.message });
-  }
 };
-
-
 
 export const getUserInfoController = async (req, res) => {
   const user = await getUserInfoBySession(req.user);

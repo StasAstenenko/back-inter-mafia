@@ -9,7 +9,7 @@ import {
 
 export const getWaterDataController = async (req, res, next) => {
   const data = await getWater({ userId: req.user._id });
-  console.log(data);
+  // console.log(data);
   if (!data) {
     return next(createHttpError(404, 'Data not found'));
   }
@@ -26,7 +26,7 @@ export const getWaterPerDateController = async (req, res, next) => {
     const userId = req.user._id;
 
     const waterData = await getWaterPerDate(userId, date);
-    console.log(waterData);
+    // console.log(waterData);
 
     if (waterData.length === 0) {
       return res.status(200).json({
