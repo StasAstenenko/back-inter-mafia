@@ -21,11 +21,33 @@ export const setupServer = () => {
       limit: '100kb',
     }),
   );
+  // app.use(
+  //   cors({
+  //     origin: 'https://frontend-inter-mafia.vercel.app',
+  //     // origin: 'http://localhost:5173', // URL вашого фронтенда
+  //     credentials: true,
+  //   }),
+  // );
+  const allowedOrigins = [
+    'http://localhost', // Для будь-якого порту на localhost
+    'https://frontend-inter-mafia.vercel.app', // Ваш розгорнутий фронтенд
+    undefined, // Для Postman (відсутній `origin`)
+  ];
+
   app.use(
     cors({
-      origin: 'https://frontend-inter-mafia.vercel.app',
-      // origin: 'http://localhost:5173', // URL вашого фронтенда
-      credentials: true,
+      origin: (origin, callback) => {
+        // Дозволити запити без `origin` (наприклад, з Postman)
+        if (
+          !origin ||
+          allowedOrigins.some((allowed) => origin?.startsWith(allowed))
+        ) {
+          callback(null, true); // Дозволити запит
+        } else {
+          callback(new Error('Not allowed by CORS')); // Заборонити запит
+        }
+      },
+      credentials: true, // Дозволити передачу куків
     }),
   );
   app.use(cookieParser());
