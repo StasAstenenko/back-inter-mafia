@@ -21,13 +21,7 @@ export const setupServer = () => {
       limit: '100kb',
     }),
   );
-  // app.use(
-  //   cors({
-  //     origin: 'https://frontend-inter-mafia.vercel.app',
-  //     // origin: 'http://localhost:5173', // URL вашого фронтенда
-  //     credentials: true,
-  //   }),
-  // );
+
   const allowedOrigins = [
     'http://localhost', // Для будь-якого порту на localhost
     'https://frontend-inter-mafia.vercel.app', // Ваш розгорнутий фронтенд

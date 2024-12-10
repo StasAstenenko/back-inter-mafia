@@ -4,11 +4,13 @@ export const setupSession = (res, session) => {
   res.cookie('refreshToken', session.refreshToken, {
     httpOnly: true,
     secure: true,
+    sameSite: 'none', // Дозволяє передачу між різними доменами
     expires: new Date(Date.now() + THIRTY_DAYS),
   });
   res.cookie('sessionId', session._id, {
     httpOnly: true,
     secure: true,
+    sameSite: 'none', // Дозволяє передачу між різними доменами
     expires: new Date(Date.now() + THIRTY_DAYS),
   });
 };
