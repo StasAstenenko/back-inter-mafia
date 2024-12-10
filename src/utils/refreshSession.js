@@ -1,7 +1,6 @@
 import createHttpError from 'http-errors';
 import { SessionsCollection } from '../db/models/sessionsSchema.js';
 import { createSession } from './createSession.js';
-import mongoose from 'mongoose';
 
 // Функція для оновлення сесії користувача
 export const refreshUsersSession = async ({ sessionId, refreshToken }) => {

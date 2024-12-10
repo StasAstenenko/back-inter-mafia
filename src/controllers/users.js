@@ -69,22 +69,33 @@ export const logoutUserController = async (req, res) => {
 //     res.status(error.status || 500).json({ message: error.message });
 //   }
 // };
-export const refreshUserSessionController = async (req, res) => {
-  const session = await refreshUsersSession({
-    sessionId: req.cookies.sessionId,
-    refreshToken: req.cookies.refreshToken,
-  });
-  const user = await UsersCollection.findOne({ _id: session.userId });
-  setupSession(res, session);
+export const refreshUserSessionController = async (req, res, next) => {
+  try {
+    const { sessionId, refreshToken } = req.cookies;
 
-  res.json({
-    status: 200,
-    message: 'Successfully refreshed a session!',
-    data: {
-      accessToken: session.accessToken,
-      user,
-    },
-  });
+    if (!sessionId || !refreshToken) {
+      return res.status(400).json({
+        status: 400,
+        message: 'Missing session ID or refresh token',
+      });
+    }
+
+    const session = await refreshUsersSession({ sessionId, refreshToken });
+    const user = await UsersCollection.findOne({ _id: session.userId });
+
+    setupSession(res, session);
+
+    res.json({
+      status: 200,
+      message: 'Successfully refreshed a session!',
+      data: {
+        accessToken: session.accessToken,
+        user,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 export const getUserInfoController = async (req, res) => {
